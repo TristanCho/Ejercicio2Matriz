@@ -15,7 +15,7 @@ namespace Ejercicio2Matriz
             InicializarTablero(ref tablero);
             char caracterUsado = '0';
             string coordenada = "";
-
+            //TODO Revisar haciendo el a1 a2 a3 b1 b2 b3 c1 c2 c3
             do
             {
                 Console.Clear();
