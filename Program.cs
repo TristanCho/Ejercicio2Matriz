@@ -15,43 +15,47 @@ namespace Ejercicio2Matriz
             InicializarTablero(ref tablero);
             char caracterUsado = '0';
             string coordenada = "";
-            //TODO Revisar haciendo el a1 a2 a3 b1 b2 b3 c1 c2 c3
+            bool finalizado = false;
+
             do
             {
-                Console.Clear();
-                Console.WriteLine(tableroVisual(tablero));
-                Console.WriteLine($"introduce la coordenada que quieres cambiar.");
-                Console.WriteLine("Por ejemplo, A1.");
-                coordenada = Console.ReadLine().ToUpper();
-
-                while (!EsCoordenadaValida(coordenada))
+                if (finalizado)
+                {
+                    Console.WriteLine("Juego terminado");
+                    Thread.Sleep(2000);
+                    Console.WriteLine("Adiós.....");
+                    Thread.Sleep(1200);
+                    Environment.Exit(0);
+                }
+                else
                 {
                     Console.Clear();
-                    //PonerCoordenadas(ref tablero, coordenada, caracterUsado);
                     Console.WriteLine(tableroVisual(tablero));
-                    Console.WriteLine("Entrada Incorrecta");
                     Console.WriteLine($"introduce la coordenada que quieres cambiar.");
                     Console.WriteLine("Por ejemplo, A1.");
                     coordenada = Console.ReadLine().ToUpper();
+
+                    while (!EsCoordenadaValida(coordenada) && !finalizado)
+                    {
+                        Console.Clear();
+                        //PonerCoordenadas(ref tablero, coordenada, caracterUsado);
+                        Console.WriteLine(tableroVisual(tablero));
+                        Console.WriteLine("Entrada Incorrecta");
+                        Console.WriteLine($"introduce la coordenada que quieres cambiar.");
+                        Console.WriteLine("Por ejemplo, A1.");
+                        coordenada = Console.ReadLine().ToUpper();
+                    }
                 }
+
                 if (EsCoordenadaValida(coordenada))
                 {
                     Console.Clear();
                     PonerCoordenadas(ref tablero, coordenada, caracterUsado);
                     Console.WriteLine(tableroVisual(tablero));
+                    finalizado = !HayUnos(tablero);
                 }
-                if (EstaElTableroLleno(tablero))
-                {
-                    Console.WriteLine("Juego terminado");
-                    Thread.Sleep(2000);
-                    Console.WriteLine("Adiós....."); 
-                    Thread.Sleep(1200);
-                    Environment.Exit(0);
-                }                
             }
             while (EsCoordenadaValida(coordenada));
-            
-
         }
         static void InicializarTablero(ref char[,] tablero)
         {
@@ -138,21 +142,50 @@ namespace Ejercicio2Matriz
                     return;
             }
         }
-        static bool EstaElTableroLleno(char[,] tablero)
+        static Boolean HayUnos(char[,] tablero)
         {
-            if (
-                tablero[0, 0] == tablero[0, 1] && tablero[0, 1] == tablero[0, 2] &&
-                tablero[1, 0] == tablero[1, 1] && tablero[1, 1] == tablero[1, 2] &&
-                tablero[2, 0] == tablero[2, 1] && tablero[2, 1] == tablero[2, 2] &&
-                tablero[2, 1] != '1'
-                )
+
+            for (int x = 0; x < 3; x++)
             {
-                return true;
-                            }
+                for (int y = 0; y < 3; y++)
+                {
+                    if (tablero[x, y] == '1')
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+            /*int entrada = 9;
+            for (int contador1 = 0; contador1 < 3; contador1++)
+            {
+                for (int contador2 = 0; contador2 < 3; contador2++)
+                {
+                    entrada = tablero[contador1, contador2];
+                    Console.WriteLine("Valor Entrada = "+ entrada);
+                    if (entrada == 48)
+                    {
+                        entrada += entrada;
+                        Console.WriteLine("EntradaIF= " + entrada);
+                    }
+                    else
+                    {
+                        entrada -= entrada;
+                        Console.WriteLine("EntradaElse= " + entrada);
+                    }
+                }
+            }
+            if (entrada == 0)
+            {
+                return '0';
+            }
             else
             {
-                return false;
-            }
+                return '1';
+            }*/
         }
     }
 }
+
+
